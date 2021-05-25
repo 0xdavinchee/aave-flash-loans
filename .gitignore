@@ -3,6 +3,7 @@ node_modules
 #Test files
 coverage
 coverage.json
+.env
 
 #Hardhat files
 cache
