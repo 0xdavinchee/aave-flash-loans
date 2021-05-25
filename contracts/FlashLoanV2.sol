@@ -29,7 +29,12 @@ contract FlashLoanV2 is FlashLoanReceiverBase, Withdrawable {
   /**
         @dev executeOperation is called after you receive the flashloan
      */
-        // at the end of the contract your contract owes the loaned amount + premiums
+  function executeOperation(
+    address[] calldata _assets,
+    uint256[] calldata _amounts,
+    uint256[] calldata _premiums,
+    address _initiator,
+    bytes calldata _params
   ) external override returns (bool) {
     // whatever logic you want to do with the funds can be carried out here.
     // at the end of the contract your contract owes the loaned amount + premiums
