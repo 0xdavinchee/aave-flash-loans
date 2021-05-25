@@ -34,3 +34,8 @@ e.g.
 6. USDC sent to Uni/Kyber and converted back to DAI
 7. DAI flash loan repaid to Aave
 You are once again refinancing the loan from 8% DAI to 5% USDC.
+
+**Referenced Materials**
+- https://docs.aave.com/developers/guides/flash-loans
+- https://www.youtube.com/watch?v=Aw7yvGFtOvI
+- https://github.com/brownie-mix/aave-flashloan-mix
