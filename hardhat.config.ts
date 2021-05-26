@@ -7,8 +7,6 @@ import "hardhat-typechain";
 import "solidity-coverage";
 import "hardhat-prettier";
 
-import { FlashLoanV2Factory, FlashLoanV2 } from "./typechain";
-import { Iweth10 as IWETH10 } from "./typechain/Iweth10";
 import IWETHInterface from "./artifacts/contracts/IWETH10.sol/IWETH10.json";
 
 const INFURA_API_KEY = process.env.INFURA_PROJECT_ID || "";
@@ -17,8 +15,6 @@ const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || "";
 const WETH_KOVAN_ADDRESS = process.env.WETH_KOVAN_ADDRESS || "";
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 
-let flashLoanV2Contract: FlashLoanV2;
-
 task("accounts", "Prints the list of accounts", async (_args, hre) => {
   const accounts = await hre.ethers.getSigners();
   for (const account of accounts) {
@@ -26,17 +22,17 @@ task("accounts", "Prints the list of accounts", async (_args, hre) => {
   }
 });
 
-task("getTokenBalance", "Gets the balance of the token ")
+task("getTokenBalance", "Gets the balance of an erc20 token given the token and wallet addresses")
   .addParam("token", "address of token", "", types.string)
   .addParam("wallet", "address of wallet/contract", "", types.string)
   .setAction(async (args, hre) => {
     const signers = await hre.ethers.getSigners();
-    const WETHContract = await hre.ethers.getContractAt(
+    const tokenContract = await hre.ethers.getContractAt(
       IWETHInterface.abi,
       args.token,
       signers[0]
     );
-    const balance = await WETHContract.balanceOf(args.wallet);
+    const balance = await tokenContract.balanceOf(args.wallet);
     console.log(
       `Token Balance (${args.wallet}): `,
       hre.ethers.utils.formatUnits(balance.toString())
@@ -76,6 +72,11 @@ task("withdrawAsset")
     "the address of the token you want to withdraw (address(0) for eth)",
     1,
     types.string
+  ).addParam(
+    "amount",
+    "amount of the token you want to withdraw",
+    1,
+    types.string
   )
   .setAction(async (args, hre) => {
     const amount = hre.ethers.utils.parseEther(args.amount);
@@ -94,7 +95,7 @@ task("withdrawAsset")
       amount
     );
     await wethTransferTxn.wait();
-    console.log("Success");
+    console.log("Successfully" );
   });
 
 task("transferAsset")
