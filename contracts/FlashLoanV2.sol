@@ -36,6 +36,17 @@ contract FlashLoanV2 is FlashLoanReceiverBase, Withdrawable {
         address _initiator,
         bytes calldata _params
     ) external override returns (bool) {
+        
+        // v1: do this for DAI/ETH, get uniswapPair/sushiswapPairs so you can make swaps 
+        // e.g. if assetA=10 on Uni and assetA=5 on Sushi, buy assetA on Sushi
+        // sell assetA on Uni
+
+        // v2: based on the asset(s), get uniswapPair/sushiswapPairs based on asset address
+        // so you can make swaps 
+        // e.g. if assetA=10 on Uni and assetA=5 on Sushi, buy assetA on Sushi
+        // sell assetA on Uni
+
+
         // whatever logic you want to do with the funds can be carried out here.
         // at the end of the contract your contract owes the loaned amount + premiums
 
