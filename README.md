@@ -1,6 +1,7 @@
 # aave-flash-loans
 
 **Flashloan Mental Model**
+
 1. Contract calls `LendingPool` contract to request a Flash Loan of amount `amounts` of asset `reserves` (e.g. 500 DAI).
 2. After some sanity checks, `LendingPool` transfer the requested `amounts` of the `reserves` to calling contract and then calls `executeOperation()` on calling contract or contract specified in `_receiver`.
 3. The calling contract now holds the flash loaned `amounts` and executes any arbitrary operation in the code.
@@ -11,6 +12,7 @@
 4. All of the above happens in 1 transaction (and therefore a single ethereum block).
 
 **Applications**
+
 Flash loans are used extensively for swapping and/or migrating positions. Other examples in the wild include:
 - **Arbitrage** between assets, without needing to have principal amount to execute the arbitrage.
 - **Swapping collateral** of loan positions, without having to repay the debt of the loan positions. I believe this makes sense if the collateral you currently have is dropping in value and you want to exchange it for something like a stable or collateral which you believe will appreciate. This also is akin to adding a passive long.
