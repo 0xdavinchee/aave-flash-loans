@@ -2,7 +2,7 @@ import hre from "hardhat";
 
 async function main() {
   const flashLoanV2Factory = await hre.ethers.getContractFactory("FlashLoanV2");
-  const flashLoanV2Contract = await flashLoanV2Factory.deploy("Hello, Hardhat!");
+  const flashLoanV2Contract = await flashLoanV2Factory.deploy(process.env.AAVE_LENDING_POOL_ADDRESS_PROVIDER);
 
   await flashLoanV2Contract.deployed();
 
