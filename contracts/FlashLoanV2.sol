@@ -37,6 +37,10 @@ contract FlashLoanV2 is FlashLoanReceiverBase, Withdrawable {
         bytes calldata _params
     ) external override returns (bool) {
         
+        // v0: do a simple flash loan swap for DAI/ETH, get uniswapPair/sushiswapPairs so you can make a swap
+        // e.g. borrow DAI from Aave, exchange DAI for ETH on Uniswap, go to Sushiswap, exchange ETH for DAI
+        // sell assetA on Uni
+
         // v1: do this for DAI/ETH, get uniswapPair/sushiswapPairs so you can make swaps 
         // e.g. if assetA=10 on Uni and assetA=5 on Sushi, buy assetA on Sushi
         // sell assetA on Uni
@@ -46,6 +50,20 @@ contract FlashLoanV2 is FlashLoanReceiverBase, Withdrawable {
         // e.g. if assetA=10 on Uni and assetA=5 on Sushi, buy assetA on Sushi
         // sell assetA on Uni
 
+        // All the smart contract does is literally carry out the flash loan and the actual swaps of the token
+        // between exchanges/pairs.
+        // The logic for determining whether to carry out the trade will be outside of the smart contract itself,
+        // but it will call this smart contract.
+
+        // more profitable strategies, which are complex will involve more steps:
+        // for example, borrowing stable coin S from Aave, exchanging it for asset A on exchange X, then either
+        // exchanging asset A for stable coin S (at which point it is done) or S1 on the same exchange or another 
+        // exchanging stablecoin S1 for another asset B on the most profitable exchange and eventually routing 
+        // back to S to pay back to Aave
+        // in order to do this with flash loans you'll need to set a bunch of variables in flashloan so that when we
+        // go through the executeOperation function (it would have a bunch of if/else statements) based on the variables
+        // you can do this without flash loans by creating a contract which has the same logic and you pass in the
+        // necessary information needed for the pairs
 
         // whatever logic you want to do with the funds can be carried out here.
         // at the end of the contract your contract owes the loaned amount + premiums
